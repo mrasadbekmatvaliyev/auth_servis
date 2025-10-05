@@ -1,10 +1,10 @@
-# Java 17 base image
+# Base image
 FROM openjdk:17-jdk-slim
 
-# Working directory
+# Set working directory
 WORKDIR /app
 
-# Copy gradle wrapper and build files
+# Copy Gradle wrapper and build files
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
@@ -13,13 +13,13 @@ COPY settings.gradle .
 # Copy source code
 COPY src src
 
-# Make gradlew executable
-RUN chmod +x gradlew
+# Make Gradle wrapper executable
+RUN chmod +x ./gradlew
 
-# Build the application
-RUN ./gradlew build -x test
+# Build the project (skip tests to make it faster)
+RUN ./gradlew clean build -x test
 
-# Expose port
+# Expose the app port
 EXPOSE 8080
 
 # Run the application
